@@ -1,0 +1,437 @@
+@CHARSET "UTF-8";
+
+*{
+  font-family: 'Nanum Gothic', sans-serif;
+}
+.red{
+	color: #d33d4a !important;
+}
+.cursor-pointer{
+	cursor: pointer !important;
+}
+/* 꺽쇄 표기 */
+.arrow {
+    display: inline-block;
+    position: relative;
+    margin: 0 0 0 10px;
+    padding: 0;
+    width: 0;
+    height: 0;
+    border: 7px solid transparent;
+    border-left-color: #eaebee;
+}
+.arrow:before, .arrow:after {
+    display: block;
+    content: "";
+    position: absolute;
+    top: 0;
+    width: 0;
+    height: 0;
+}
+.arrow:before {
+    left: -21px;
+    margin-top: -7px;
+    border: 7px solid transparent;
+    border-right-color: #eaebee;
+}
+.arrow:after {
+    left: -17px;
+    margin-top: -15px;
+    border: 15px solid transparent;
+    border-left-color: #abb0b9;
+}
+.arrow.gray{
+	border-left-color: #3f3f3f;
+}
+.arrow.gray:before{
+	border-right-color: #3f3f3f;
+}
+.arrow.gray:after {
+	border-left-color: #fff;
+}
+
+.chatMainWrap{
+	position: relative;
+	height: 100%;
+}
+.titleWrap{
+	position: relative;
+	height: 40px;
+	background: #2d2c30;
+	color: #fff;
+}
+.titleWrap .titleName{
+	line-height: 40px;
+	margin-left: 10px;
+}
+.titleWrap .titleName img{
+	top: 5px;
+	position: relative;
+	width:30px;
+	height:30px;
+}
+.titleWrap .helpBtn{
+	position: absolute;
+	right: 10px;
+	top: 10px;
+	display: inline-block;
+	line-height: 24px;
+	background: #24272d;
+	padding: 0 10px;
+	border-radius: 3px;
+	color: #fff;
+	
+	height: 20px;
+	width: 20px;
+	background: url("../images/icon_close.png") no-repeat center;
+	background-size: 30px;
+}
+/*채팅화면*/
+.chatContentWrap{
+	position: absolute;
+	/* top: 40px; */
+	/* bottom: 90px; */
+	left: 0;
+	right: 0;
+	background-color: #eaeaea;
+	/* background-image: url("../images/bg_chat.png");
+	 */overflow: auto;
+}
+.chatContentWrap .cInner{
+	padding: 10px;
+}
+
+.chatMessageWrap
+{
+	position: absolute;
+	bottom: 0;
+	left: 0;
+	right: 0;
+}
+.chatMessageWrap .toolBar{
+	height: 25px;
+	border-top: 1px solid #dee2e7;
+	border-bottom: 1px solid #dee2e7;
+	background: linear-gradient(#f1f5fb, #e6e8eb);
+}
+.toolBar a{
+	line-height: 25px;
+	color: #acadae;
+	margin-left: 10px;
+	font-weight: bold;
+	font-size: 10px;
+}
+.triangle {
+	display: inline-block;
+    width: 0;
+    height: 0;
+    position: relative;
+    top: 5px;
+	margin-right: 5px;
+    border-top: 5px solid transparent;
+    border-right: 5px solid transparent;
+    border-bottom: 5px solid #acadae;
+    border-left: 5px solid transparent;
+}
+.toolBar.on a{
+	color: #45b5c8;
+}
+.toolBar.on a .triangle {
+	top: 10px;
+    border-top: 5px solid #45b5c8;
+    border-right: 5px solid transparent;
+    border-bottom: 5px solid transparent;
+    border-left: 5px solid transparent;
+}
+.chatMessageInputBox{
+	position: relative;
+	padding: 10px;
+	padding-right: 50px;
+	border-bottom: 1px solid #e7e7e7;
+	background: #fff;
+}
+.chatMessageInputBox textarea{
+	border: none;
+	outline: none;
+	width: 100%;
+	resize: none;
+}
+.chatMessageInputBox a{
+	position: absolute;
+	right: 5px;
+	top: 5px;
+	bottom: 5px;
+/* 	border: 1px solid #d9dce0; */
+	padding: 20px;
+	background: url("../images/communication.png") no-repeat center;
+	text-indent: -9999px;
+	background-size: 30px;
+}
+.tipWrap{
+	padding: 10px;
+	background: #f1f1f1;
+	display: none;
+}
+.tipWrap .inner{
+	border: 1px solid #e3e5e7;
+	padding: 10px;
+	background: #fff;
+	height: 100px;
+}
+
+.tipWrap .inner > div{
+	height: 100%;
+	overflow: auto;
+}
+.tipWrap .inner ul{
+	overflow: auto;
+}
+.tipWrap .inner ul li{
+	display: inline-block;
+	float: left;
+	padding: 5px 15px;
+	line-height: 15px;
+	margin-right: 10px;
+	background: #fff;
+	border: 1px solid #ebebeb;
+	margin-bottom: 5px;
+}
+
+.contentBlock{
+	display: inline-block;
+	position: relative;
+	padding-left: 35px;
+	margin-bottom: 10px;
+	overflow: hidden;
+}
+.contentBlock .comment{
+	display: block;
+	font-size: 11px;
+	color: #9d9d9d;
+	line-height: 20px;
+	margin-top: 5px;
+}
+.contentBlock .icon{
+	position: absolute;
+	left: 0;
+	top: 0;
+	display: inline-block;
+	height: 30px;
+	width: 30px;
+	background: url("../images/icon_bot.png") no-repeat center;
+	background-size: 30px;
+}
+.contentBlock .name{
+	display: inline-block;
+	color: #87898d;
+	font-weight: bold;
+}
+.contentBlock .dialog{
+	border: 1px solid #d9dadd;
+	background: #fff;
+	border-radius: 10px;
+	margin-right: 35px;
+	margin-top: 2px;
+}
+
+/* .contentBlock .dialog:after {
+    content: '';
+    position: absolute;
+    width: 8px;
+    height: 7px;
+    display: block;
+    top: 29px;
+    left: 28px;
+    background: url(../images/chat_tri01.png)0 0 no-repeat;
+    background-size: 8px 7px;
+    border: 0;
+}
+ */
+
+.contentBlock .dialogTip{
+	background: #f3f4f7;
+	padding: 10px;
+	margin: 10px;
+}
+.contentBlock .dialogTip ul{
+	overflow: hidden;
+}
+.contentBlock .dialogTip ul li{
+	display: inline-block;
+	float: left;
+	margin-right: 15px;
+	margin-bottom: 7px;
+	border: 1px solid #d4d4d4;
+	background: #fff;
+	border-radius: 5px;
+}
+.contentBlock .dialogTip ul li a{
+	line-height: 15px;
+	padding: 5px 8px;
+	display: block;
+}
+.contentBlock.user .dialog{
+	background: #45b5c8;
+	color: #fff;
+	display: inline-block;
+	float: right;
+	margin-right: 15px;
+	padding: 7px 10px;
+}
+.contentBlock .textType{
+	padding: 10px 13px;
+}
+.contentBlock .extraTextType{
+	position: relative;
+	margin-top: 5px;
+	padding: 10px;
+	padding-left: 40px;
+	border-top: 3px double #e4e5e8; 
+}
+.contentBlock .extraTextType .extraTextIcon{
+	position: absolute;
+	left: 13px;
+	top: 10px;
+	display: inline-block;
+	width: 17px;
+	height: 19px;
+	background: url("../images/icon_extratext.png") no-repeat center;
+}
+.contentBlock .linkType{
+	margin-top: 5px;
+}
+.contentBlock .linkType a{
+	display: inline-block;
+	border-radius: 3px;
+	line-height: 15px;
+	color: #fff;
+	padding: 7px 15px 7px 25px;
+	background-color: #abb0b9;
+	background-image: url("../images/icon_extratext.png");
+	background-repeat: no-repeat;
+	background-position: 10px center;
+	background-size: 10px;
+}
+.contentBlock .listType{
+	padding: 0 15px;
+	border-top: 3px double #e4e5e8; 
+}
+.contentBlock .listType ul li{
+	position: relative;
+	border-top: 1px solid #eaebed;
+	padding: 15px 0;
+}
+.contentBlock .listType.userList ul li{
+	padding-left: 65px;
+}
+.contentBlock .listType.docList ul li{
+	padding-left: 25px;
+}
+.contentBlock .listType ul li{
+	
+}
+.contentBlock .listType ul li:first-child{
+	border-top: none;
+}
+.contentBlock .listType .photo{
+	position: absolute;
+	left: 0;
+	top: 15px;
+	display: inline-block;
+	height: 50px;
+	width: 50px;
+	overflow: hidden;
+}
+.contentBlock .listType .photo img{
+	width: 100%;
+}
+.contentBlock .listType .docIcon{
+	position: absolute;
+	left: 0;
+	top: 15px;
+	display: inline-block;
+	width: 17px;
+	height: 19px;
+	background: url("../images/icon_extratext.png") no-repeat center;
+	
+}
+.contentBlock .listType p{
+	line-height: 15px;
+}
+.contentBlock .listType .arrow{
+	position: absolute;
+	right: 0px;
+	top: 30px;
+}
+.contentBlock .listMoreBtn{
+	line-height: 30px;
+	border: 1px solid #dfdfdf;
+	color: #abb0b9;
+	text-align: center;
+	display: block;
+	margin-bottom: 15px;
+}
+.contentBlock .imgType{
+	border-top: 3px double #e4e5e8; 
+	padding: 15px;
+}
+.contentBlock .imgType .imgDesc{
+	line-height: 15px;
+	margin-bottom: 10px;
+}
+.contentBlock .imgType .imgWrap{
+	text-align: center;
+}
+.contentBlock .imgType .imgWrap img{
+	max-width: 100%;
+}
+.contentBlock .callBtn{
+	margin-top: 3px;
+}
+
+.icon_option{
+	height:20px;
+	width:20px;
+	top: 5px;
+}
+
+/*채팅박스*/
+
+.right_chat .text {
+    background: #373b3e;
+    border-color: #373b3e;
+    color: #fff;
+    border-radius: 6px;
+    padding: 10px;
+    display: inline-block;
+}
+
+.right_chat {
+	text-align: right;
+	margin: 0px 10px 10px 0px;
+}
+
+.right_chat .icon{
+	position: absolute;
+	left: 0;
+	top: 0;
+	display: inline-block;
+	height: 30px;
+	width: 30px;
+	background: url("../images/icon_bot.png") no-repeat center;
+	background-size: 30px;
+}
+/* 
+.right_chat:after {
+    content: '';
+    position: absolute;
+    width: 8px;
+    height: 7px;
+    display: block;
+    top: 230px;
+    right: 3px;
+    background: url(../images/chat_tri02.png)0 0 no-repeat;
+    background-size: 8px 7px;
+    border: 0;
+}
+ */

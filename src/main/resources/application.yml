@@ -1,0 +1,23 @@
+server:
+  port: 8080
+  
+#spring:
+#  mustache:
+#    suffix: .html
+viewname:
+  chatroom:
+    list: rooms
+    detail: chatroom
+
+url:
+  chat:
+    list: http://10.208.113.167:30401/chat
+
+
+---
+spring:
+  profiles: stomp
+viewname:
+  chatroom:
+    list: /chat2/rooms
+    detail: /chat2/chatroom

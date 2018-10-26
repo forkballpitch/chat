@@ -1,0 +1,145 @@
+@CHARSET "UTF-8";
+html, body
+{
+	height: 100%;
+	margin: 0px;
+	padding: 0px;
+}
+
+body
+{
+	-webkit-text-size-adjust:none;
+	background: #ffffff;
+	font-size: 12px;
+	font-family: dotum, "돋움", Arial, Helvetica, sans-serif;
+	color: #000;
+	height: 100%;
+}
+
+body *
+{
+	-webkit-tap-highlight-color:rgba(0,0,0,0);
+	vertical-align: top;
+}
+
+div, p, ul, li, table, th, td, textarea, input, span, form, h1,h2,h3,h4,h5,h6,dt,dl,dd
+{
+	margin: 0px;
+	padding: 0px;
+}
+
+ul, ol, dl, dd, dt, li
+{
+	list-style-type: none;
+}
+
+table
+{
+	table-layout: fixed;
+}
+
+select
+{
+	font: -webkit-control;
+	font-family: dotum, "돋움", Arial, Helvetica, sans-serif;
+	padding:2px;
+}
+
+fieldset
+{
+	border:0;
+	margin: 0px;
+	padding: 0px;
+}
+
+legend
+{
+	margin: 0px;
+	padding: 0px;
+	font-size: 0px;
+	height: 0px;
+	line-height: 0px;
+}
+
+caption
+{
+	position: absolute;
+	visibility:hidden;
+	width: 0px;
+	height: 0px;
+	overflow: hidden;
+	font-size: 0px;
+	margin:0px;
+	padding:0px;
+	line-height: 0px;
+}
+
+img
+{
+	border:0;
+	vertical-align: top;
+}
+
+optgroup
+{
+	font-style: normal;
+	font-size: 0px;
+	height: 0px;
+	line-height: 0px;
+}
+
+input[type="text"] 
+{
+	font-size: 12px;
+	border: transparent;
+}
+
+input[type="password"] 
+{
+	font-size: 12px;
+	color: #000;
+	border: transparent;
+}
+
+textarea
+{
+	font-size: 12px;
+	color: #313131;
+	border: transparent;
+}
+
+a
+{
+	color: #000;
+	text-decoration: none;
+	cursor: pointer;
+}
+
+a:hover
+{
+	color: #000;
+	text-decoration: none;
+}
+
+/* fallback placeholder */
+input.placeholder,
+textarea.placeholder {
+	color: #a7a7a7;
+}
+/* webkit placeholder */
+::-webkit-input-placeholder {
+	color: #a7a7a7;
+}
+/* moz placeholder */
+:-moz-placeholder {
+	color: #a7a7a7;
+}
+
+::-moz-placeholder
+{
+	color: #a7a7a7;
+}
+:-ms-input-placeholder
+{
+	color: #a7a7a7;
+}

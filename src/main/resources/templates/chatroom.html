@@ -1,0 +1,348 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge"/>
+    <title></title>
+    <script type="text/javascript" src="/js/jquery-3.2.1.min.js"></script>
+    <script type="text/javascript" src="/webjars/sockjs-client/sockjs.min.js"></script>
+
+    <link rel="stylesheet" type="text/css" href="/jquery/easyui/themes/default/easyui.css"/>
+    <link rel="stylesheet" type="text/css" href="/jquery/easyui/themes/icon.css"/>
+
+    <link rel="stylesheet" type="text/css" href="/style/style.css"/>
+
+
+    <link rel="stylesheet" type="text/css" href="/style/icon_extension.css"/>
+    <link rel="stylesheet" type="text/css" href="/style/icon.css"/>
+    <link rel="stylesheet" type="text/css" href="/style/xml_dic.css"/>
+    <link rel="stylesheet" type="text/css" href="/style/wiki_meta.css"/>
+
+
+    <!-- jquery include -->
+    <!--       <script src="/jquery/jquery-1.7.1.js"></script> -->
+    <script src="/jquery/jquery.jsoncookie.js"></script>
+    <script src="/jquery/jquery.xml2json.js"></script>
+    <script src="/jquery/jquery.globalstylesheet.js"></script>
+
+    <script src="/jquery/easyui/jquery.easyui.min.js"></script>
+
+
+
+    <!-- include -->
+    <script src="/js/xml2treejson.js"></script>
+
+    <!-- include -->
+    <script src="/js/GoogleCodeWikiParser.js"></script>
+
+    <script src="/js/common.js"></script>
+    <!-- <script src="js/session.js"></script> -->
+    <script src="/js/user_auth.js"></script>
+    <script src="/js/auth_code.js"></script>
+
+
+    <script src="/js/sprintf.js"></script>
+
+
+    <!-- ASR -->
+    <script src="/jquery/swfobject.js"></script>
+    <script src="/js/recorder.js"></script>
+
+
+    <link rel="stylesheet" type='text/css' href="/css/base.css">
+    <link rel="stylesheet" type='text/css' href="/css/style.css">
+
+    <script>
+
+
+        $(function () {
+            var chatBox = $('.chatContentWrap');
+            var messageInput = $('textarea[id="textID"]');
+            var sendBtn = $('#sendBtn');
+            var roomId = $('.content').data('room-id');
+            var member = $('.content').data('member');
+            var domain = $('.content').data('domain');
+
+            var sock = new SockJS("/ws/chat");
+
+            sock.onopen = function () {
+
+                sock.send(JSON.stringify({chatRoomId: roomId, type: "JOIN", message: "안녕", writer: member , domain : domain}));
+                sock.onmessage = function (e) {
+                    var content = JSON.parse(e.data);
+                    chatBox.append('<div class="cInner" id="output">' +
+                        '<div class="contentBlock bot">' +
+                        '<span class="icon"></span>' +
+                        '<span class="name">chatbot</span>' +
+                        '<div class="dialog">' +
+                        '<div class="textType">' + content.message + '</div>' +
+                        '</div>' +
+                        '</div>' +
+                        '</div>');
+                    $(".chatContentWrap").scrollTop($(".chatContentWrap").height());
+                    $('textarea[id="textID"]').val('');
+
+                }
+            }
+
+            sendBtn.click(function () {
+                var messageval = messageInput.val();
+                chatBox.append('<div class="right_chat">' +
+                    '<div class="text" style="word-wrap: break-word;">' + messageval + '</div></div>');
+
+                var content = messageval;
+                sock.send(JSON.stringify({chatRoomId: roomId, type: 'CHAT', message: content, writer: member , domain : domain}));
+                messageInput.val('');
+            });
+
+
+        });
+
+
+
+        function onChatEnter() {
+            var key = window.event.keyCode;
+
+            // If the user has pressed enter
+            if (key === 13) {
+                $('#sendBtn').click()
+                return false;
+            }
+            else {
+                return true;
+            }
+
+
+        }
+    </script>
+
+
+    <script type="text/javascript">
+        var wsUri = "${sendUrl}";
+        var num = 0;
+        var portNum = 0;
+        $(document).ready(function () {
+
+            window.addEventListener("load", init, false);
+
+            $(window).bind("beforeunload", function (e) {
+                websocket.close();
+            });
+
+            resizeContent();
+
+            $(window).resize(function () {
+                resizeContent();
+            });
+
+            $("#toggleHelp").click(function () {
+                if ($(this).closest(".toolBar").hasClass("on")) {
+                    $(".tipWrap").hide();
+                    $(this).closest(".toolBar").removeClass("on");
+                } else {
+                    $(".tipWrap").show();
+                    $(this).closest(".toolBar").addClass("on");
+                }
+                resizeContent();
+            });
+
+
+            $(".dialogTip ul li a").on("click", function () {
+                $ele = $(this);
+                textID.value = $ele.text();
+                processMessage();
+            });
+        });
+
+
+
+
+
+        function init() {
+            output = document.getElementById("output");
+        }
+
+        function send_message(element) {
+            processMessage();
+        }
+
+        function processMessage() {
+            websocket = new WebSocket(wsUri);
+            websocket.onopen = function (evt) {
+                onOpen(evt)
+            };
+
+            websocket.onmessage = function (evt) {
+                onMessage(evt)
+            };
+
+            websocket.onerror = function (evt) {
+                onError(evt)
+            };
+        }
+
+        function onOpen(evt) {
+            //writeToScreen("Connected to Endpoint!");
+            var myLineBreak = textID.value.replace(/(\n|\r\n)/g, '<br>');
+            doSend(myLineBreak);
+
+        }
+
+        function doSend(message) {
+
+            writeToScreenSend(message);
+            websocket.send(message);
+            //websocket.close();
+        }
+
+        function onMessage(evt) {
+            writeToScreenReply(evt.data);
+        }
+
+        function onError(evt) {
+            writeToScreenError(evt.data);
+        }
+
+        function writeToScreenSend(message) {
+            var block = "";
+            block += "<div class=\"contentBlock user\">";
+            block += "	<div class=\"dialog\">";
+            block += "		<span>" + message + "</span>";
+            block += "	</div>";
+            block += "</div>";
+
+            $(output).append(block);
+            resetScreen();
+        }
+
+        function writeToScreenError(message) {
+            var pre = document.createElement("p");
+            pre.style.wordWrap = "break-word";
+            pre.innerHTML = message;
+            output.appendChild(pre);
+            resetScreen();
+        }
+
+        function writeToScreenReply(message) {
+
+            var jsonObj = jQuery.parseJSON(message);
+            var messageId = (num += 1);
+
+            var cloneBotMessage = $("#botTemplate .bot").clone().prop("id", "botMessage" + messageId);
+            $("#output").append(cloneBotMessage);
+            if (jsonObj.type != undefined) {
+
+            } else {
+                $("#botMessage" + messageId).find(".textType")[0].innerHTML = message;
+                $("#botMessage" + messageId).find(".imgType").remove();
+                $("#botMessage" + messageId).find(".linkType").remove();
+            }
+
+
+            resetScreen();
+        }
+
+        function resetScreen() {
+            textID.value = '';
+            /* $(".chatContentWrap").scrollTop($(".chatContentWrap").height()); */
+            $(".chatContentWrap").scrollTop($(".chatContentWrap").prop("scrollHeight"));
+        }
+
+        function resizeContent() {
+            var w = $(window).height();
+            $(".chatMainWrap").height(w);
+            var m = $(".chatMainWrap").height();
+            var t = $(".titleWrap").height();
+            var f = $(".chatMessageWrap").height();
+            $(".chatContentWrap").height(m - t - f);
+        }
+
+        function getCaret(el) {
+            if (el.selectionStart) {
+                return el.selectionStart;
+            } else if (document.selection) {
+                el.focus();
+                var r = document.selection.createRange();
+                if (r == null) {
+                    return 0;
+                }
+                var re = el.createTextRange(), rc = re.duplicate();
+                re.moveToBookmark(r.getBookmark());
+                rc.setEndPoint('EndToStart', re);
+                return rc.text.length;
+            }
+            return 0;
+        }
+
+    </script>
+
+
+</head>
+<body>
+
+<div class="content" data-room-id="{{room.id}}" data-member="test" data-domain="{{domain}}">
+
+
+    <div class="chatMainWrap">
+        <div class="titleWrap">
+            <!-- 		<img class="icon_option" src="/images/cogwheel.png"> -->
+            <span class="titleName">AUTOEVER CHATBOT</span>
+            <a href="#" class="helpBtn"></a>
+        </div>
+
+        <div class="chatContentWrap">
+            <div class="chat_box">
+            </div>
+
+        </div>
+
+        <div class="chatMessageWrap">
+            <!-- 		<div class="toolBar">
+                        <a href="#" id="toggleHelp"><span class="triangle"></span>HELP</a>
+                    </div> -->
+            <div class="chatMessageInputBox">
+                <!-- 			 <input onclick="send_message()" value="Send" type="button">
+                            <input name="message" value="Hello WebSocket!" type="text"><br>  -->
+                <textarea id="textID" rows="3" cols="" placeholder="New Message" onkeypress="onChatEnter();"></textarea>
+                <a id="sendBtn" href="#">전송</a>
+            </div>
+            <div class="tipWrap">
+                <div class="inner">
+                    <div>
+                        <ul>
+                            <li><a href="#">/삭제</a></li>
+
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="botTemplate" style="display:none;">
+    <div class="contentBlock bot">
+        <span class="icon"></span>
+        <span class="name">haechatbot</span>
+        <div class="dialog">
+            <!-- textType -->
+            <div class="textType">
+            </div>
+            <!-- imgType -->
+            <div class="imgType">
+                <div class="imgDesc">
+                </div>
+                <div class="imgWrap">
+                    <img id="" src=""/>
+                </div>
+            </div>
+            <!-- linkType -->
+            <div class="linkType">
+                <a href="#"><span class="linkMessage"></span><span class="arrow"></span></a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<textarea id="5aebab5ebe136_result" style="width: 100%; height: 210px; border:1px solid #e1e1e1;"></textarea>
+</body>
+</html>
